@@ -1,0 +1,82 @@
+<h1>Films table</h1>
+
+<p *ngIf="!films"><em>Loading...</em></p>
+
+<div class="col-md-4">
+    <h2>Add new film</h2>
+    <form #addNewFilmForm="ngForm" (ngSubmit)="add(addNewFilmForm)">
+        <div class="form-group">
+            <label class="col-md-4 control-label">Title</label>
+            <div class="col-md-8">
+                <input type="text" class="form-control" name="newFilmTitle"
+                    required
+                    ngModel />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-4 control-label">Directors</label>
+            <div class="col-md-8">
+                <input type="text" class="form-control" name="newFilmDirectors"
+                    required
+                    ngModel />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-4 control-label">Year</label>
+            <div class="col-md-8">
+                <input type="number" class="form-control" name="newFilmYear"
+                    required
+                    ngModel />
+            </div>
+        </div>
+            <div class="form-group">								
+                <div style="padding-left:110px">
+                    <input type="submit" value="Submit" class="btn btn-primary" />
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="col-md-6" >
+    <form #rowForm="ngForm">
+        <table class="table" *ngIf="films">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Directors</th>
+                    <th>Year</th>
+                    <th>Watched</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let film of films">
+                    <td>
+                        <span *ngIf="!film.isEditing">{{ film.title }}</span>
+                        <input name="filmTitle" *ngIf="film.isEditing" class="form-control"
+                            required minlength="4"
+                            [ngModel]="film.title" />
+                    </td>
+                    <td>
+                        <span *ngIf="!film.isEditing"> {{ film.directors }} </span>
+                        <input name="filmDirectors" *ngIf="film.isEditing" class="form-control"
+                            required minlength="4"
+                            [ngModel]="film.directors" />
+                    </td>
+                    <td>
+                        <span *ngIf="!film.isEditing"> {{ film.year }} </span>
+                        <input name="filmYear" type="number" *ngIf="film.isEditing" class="form-control"
+                            required
+                            [ngModel]="film.year" />
+                    </td>
+                    <td><input type="checkbox" (change)="film.watched = true;" [disabled]="film.watched" /></td>
+                    <td>
+                        <button class="btn btn-primary btn-sm" (click)="save(film, rowForm)" *ngIf="film.isEditing" data-ng-disabled="rowForm.$pristine || rowForm.$invalid"><span class="glyphicon glyphicon-ok"></span></button>
+                        <button class="btn btn-default btn-sm" (click)="cancel(film)" *ngIf="film.isEditing"><span class="glyphicon glyphicon-remove"></span></button>
+                        <button class="btn btn-default btn-sm" (click)="film.isEditing = true;" *ngIf="!film.isEditing"><span class="glyphicon glyphicon-pencil"></span></button>
+                        <button class="btn btn-danger btn-sm" (click)="del(film)" *ngIf="!film.isEditing"><span class="glyphicon glyphicon-trash"></span></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+</div>
