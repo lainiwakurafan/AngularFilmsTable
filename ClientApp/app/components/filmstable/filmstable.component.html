@@ -1,28 +1,25 @@
-<h1>Films table</h1>
+<h1 style="text-align: center; margin-bottom:50px;">Films</h1>
 
-<p *ngIf="!films"><em>Loading...</em></p>
-
-<div class="col-md-4">
-    <h2>Add new film</h2>
-    <form #addNewFilmForm="ngForm" (ngSubmit)="add(addNewFilmForm)">
-        <div class="form-group">
-            <label class="col-md-4 control-label">Title</label>
+<div class="col-md-3">
+    <form #addNewFilmForm="ngForm" (ngSubmit)="add(addNewFilmForm)" style="margin-top:40px;">
+        <div class="form-group" style="height:25px">
+            <label class="col-md-4 control-label" style="text-align:right; padding-top: 7px;">Title</label>
             <div class="col-md-8">
                 <input type="text" class="form-control" name="newFilmTitle"
                     required minlength="4"
                     ngModel />
             </div>
         </div>
-        <div class="form-group">
-            <label class="col-md-4 control-label">Directors</label>
+        <div class="form-group" style="height:25px">
+            <label class="col-md-4 control-label" style="text-align:right;padding-top: 7px;">Directors</label>
             <div class="col-md-8">
                 <input type="text" class="form-control" name="newFilmDirectors"
                     required minlength="4"
                     ngModel />
             </div>
         </div>
-        <div class="form-group">
-            <label class="col-md-4 control-label">Year</label>
+        <div class="form-group" style="height:25px">
+            <label class="col-md-4 control-label" style="text-align:right;padding-top: 7px;">Year</label>
             <div class="col-md-8">
                 <input type="number" class="form-control" name="newFilmYear"
                     required
@@ -31,21 +28,22 @@
         </div>
             <div class="form-group">								
                 <div style="padding-left:110px">
-                    <input type="submit" value="Submit" class="btn btn-primary" />
+                    <input type="submit" value="Add" class="btn btn-primary" style="float: right; margin-right: 15px;" />
                 </div>
             </div>
         </form>
     </div>
 
-    <div class="col-md-6" >
+    <div class="col-md-9" >
     <form #rowForm="ngForm">
+        <p *ngIf="!films"><em>Loading...</em></p>
         <table class="table" *ngIf="films">
             <thead>
                 <tr>
-                    <th>Title</th>
-                    <th>Directors</th>
-                    <th>Year</th>
-                    <th>Watched</th>
+                    <th class="col-md-4">Title</th>
+                    <th class="col-md-3">Directors</th>
+                    <th class="col-md-2">Year</th>
+                    <th class="col-md-1">Watched</th>
                 </tr>
             </thead>
             <tbody>
