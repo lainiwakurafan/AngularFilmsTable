@@ -63,7 +63,7 @@ It will upload the sources and the docker file to the cloud, build the image, st
 
 ## Known issues and limitations
 
-* Webpack bundles hasn't been optimized for web performance yet
+* Webpack bundles haven't been optimized for web performance yet
 * Currently, optimistic concurrency is supported only for delete requests, put and patch are to be done
 * No tests yet
 * Simple design
