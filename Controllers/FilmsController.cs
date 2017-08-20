@@ -18,32 +18,32 @@ namespace FilmsApp.Controllers
         } 
 
         [HttpGet]
-        public async Task<IEnumerable<Film>> All() => await this.service.GetAll();
+        public async Task<IEnumerable<Film>> GetAllAsync() => await this.service.GetAllAsync();
 
         [HttpPut]
-        public async Task<IActionResult> Update([FromBody]Film updatedFilm)
+        public async Task<IActionResult> UpdateAsync([FromBody]Film updatedFilm)
         {
-            return await this.service.Update(updatedFilm);
+            return await this.service.UpdateAsync(updatedFilm);
         }
 
         [HttpPatch]
         [Route("{id}")]
-        public async Task<IActionResult> SetWatched(int id)
+        public async Task<IActionResult> SetWatchedAsync(int id)
         {
-            return await this.service.SetWatched(id);
+            return await this.service.SetWatchedAsync(id);
         }
 
         [HttpDelete]
         [Route("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> DeleteAsync(int id)
         {
-            return await this.service.Delete(id);
+            return await this.service.DeleteAsync(id);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add([FromBody]Film film)
+        public async Task<IActionResult> AddAsync([FromBody]Film film)
         {
-            return await this.service.Add(film);
+            return await this.service.AddAsync(film);
         }
     }
 }

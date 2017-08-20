@@ -12,38 +12,42 @@ public class FilmsRepository{
         this.context = context;
     }
 
-    public IAsyncEnumerable<Film> GetAll() => context.Films.ToAsyncEnumerable();
+    public IAsyncEnumerable<Film> GetAllAsync() => context.Films.ToAsyncEnumerable();
 
-    internal async Task<int> Update(Film updatedFilm)
+    internal async Task<int> UpdateAsync(Film updatedFilm)
     {
+        updatedFilm.ConcurrencyStamp = Guid.NewGuid().ToString();
         context.Films.Attach(updatedFilm);
         context.Entry(updatedFilm).State = EntityState.Modified;
         context.Entry(updatedFilm).Property(f => f.Watched).IsModified = false;
         return await context.SaveChangesAsync();
     }
 
-    internal async Task<int> SetWatched(Film film)
+    internal async Task<int> SetWatchedAsync(Film film)
     {
+        film.ConcurrencyStamp = Guid.NewGuid().ToString();
         film.Watched = true;
         context.Films.Attach(film);
+        context.Entry(film).Property(f => f.ConcurrencyStamp).IsModified = true;
         context.Entry(film).Property(f => f.Watched).IsModified = true;
         return await context.SaveChangesAsync();
     }
     
-    internal async Task<Film> Get(int id)
+    internal async Task<Film> GetAsync(int id)
     {
         return await context.FindAsync<Film>(id);
     }
 
-    internal async Task<int> Delete(int id)
+    internal async Task<int> DeleteAsync(int id)
     {
         var film = new Film {Id = id};
         context.Entry(film).State = EntityState.Deleted;
         return await context.SaveChangesAsync();
     }
 
-    internal async Task<int> Add(Film film)
+    internal async Task<int> AddAsync(Film film)
     {
+        //film.ConcurrencyStamp = Guid.NewGuid().ToString();
         var result = await context.AddAsync(film);
 
         if (result.IsKeySet && (await context.SaveChangesAsync() > 0)) {

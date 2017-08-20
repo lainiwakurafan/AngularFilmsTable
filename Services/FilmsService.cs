@@ -3,6 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 public class FilmsService
 {
@@ -13,36 +14,60 @@ public class FilmsService
         this.repository = repository;
     }
 
-    public async Task<IActionResult> SetWatched(int id)
+    public async Task<IActionResult> SetWatchedAsync(int id)
     {
-        var film = await this.repository.Get(id);
+        var film = await this.repository.GetAsync(id);
         if (film == null) return new NotFoundResult();
 
-        var result = await this.repository.SetWatched(film);
-        if (result > 0) return new OkResult();
+        try
+        {
+            var result = await this.repository.SetWatchedAsync(film);
+            if (result > 0) return new OkResult();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            return new BadRequestObjectResult(
+                $"The object you are trying to save (id={id}) was changed by another user");
+        }
 
         return new BadRequestResult();
     }
 
-    internal async Task<IEnumerable<Film>> GetAll() => await repository.GetAll().ToList();
+    internal async Task<IEnumerable<Film>> GetAllAsync() => await repository.GetAllAsync().ToList();
 
-    internal async Task<IActionResult> Update(Film updatedFilm)
+    internal async Task<IActionResult> UpdateAsync(Film updatedFilm)
     {
-        var result = await this.repository.Update(updatedFilm);
-        if (result > 0) return new OkResult();
+        try
+        {
+            var result = await this.repository.UpdateAsync(updatedFilm);
+            if (result > 0) return new OkResult();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            return new BadRequestObjectResult(
+                $"The object you are trying to save (id={updatedFilm.Id}) was changed by another user");
+        }
         return new BadRequestResult();
     }
 
-    internal async Task<IActionResult> Delete(int id)
+    internal async Task<IActionResult> DeleteAsync(int id)
     {
-        var result = await this.repository.Delete(id);
-        if (result > 0) return new OkResult();
-        return new BadRequestResult();
+        try
+        {
+            var result = await this.repository.DeleteAsync(id);
+            if (result > 0) return new OkResult();
+            return new BadRequestResult();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            return new BadRequestObjectResult(
+                $"The object you are trying to remove (id={id}) was changed by another user");
+        }
     }
 
-    internal async Task<IActionResult> Add(Film film)
+    internal async Task<IActionResult> AddAsync(Film film)
     {
-        var result = await this.repository.Add(film);
+        var result = await this.repository.AddAsync(film);
         if (result > 0) return new OkObjectResult(result);
         return new BadRequestResult();
     }
