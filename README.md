@@ -2,13 +2,17 @@
 
 ASP.NET Core 2.0 MVC app for managing films list.
 
+## Live demo
+
+https://films-app.now.sh
+
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
 ### Prerequisites
 
-Install [.NET Core 2.0.0 Preview 2](https://github.com/dotnet/core/blob/master/release-notes/download-archives/2.0.0-preview2-download.md) and [Node.js v6.9.4] to build and run the app.
+Install [.NET Core 2.0.0](https://github.com/dotnet/core/blob/master/release-notes/download-archives/2.0.0-download.md) and [Node v6.11.1 (LTS)](https://nodejs.org/en/blog/release/v6.11.1/) to build and run the app.
 
 Clone this repository and switch to its folder
 ```
