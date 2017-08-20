@@ -13,20 +13,19 @@ import { NgForm } from '@angular/forms';
 }) 
 
 @Component({
-    selector: 'fetchdata',
-    templateUrl: './fetchdata.component.html'
+    selector: 'filmstable',
+    templateUrl: './filmstable.component.html'
 })
 
-export class FetchDataComponent {
+export class FilmsTableComponent {
     public films: Film[];
-    public forecasts: WeatherForecast[];
 
     constructor(private http: Http, @Inject('ORIGIN_URL') private originUrl: string) {
         this.loadFilms();
     }
     public loadFilms()
     {
-        this.http.get(this.originUrl + '/api/SampleData/Films').subscribe(result => {
+        this.http.get(this.originUrl + '/api/films').subscribe(result => {
             this.films = result.json() as Film[];
         });
     }
@@ -38,22 +37,20 @@ export class FetchDataComponent {
             return;
         }
 
-        this.http.patch(this.originUrl + '/api/SampleData/Update', {
+        this.http.put(this.originUrl + '/api/films', {
+            Id: rowForm.value.filmId,
             Title: rowForm.value.filmTitle,
             Directors: rowForm.value.filmDirectors,
-            Year: rowForm.value.filmYear
+            Year: rowForm.value.filmYear,
         }).subscribe(result => {
-            alert(result.ok);
             if (result.ok){
-                film.isEditing = false;
                 film.title = rowForm.value.filmTitle;
                 film.directors = rowForm.value.filmDirectors;
                 film.year = rowForm.value.filmYear;
+                film.isEditing = false;
             };
         });
     }
-
-    public update
 
     public cancel(film:Film)
     {
@@ -62,15 +59,20 @@ export class FetchDataComponent {
 
     public del(film:Film)
     {
-        this.deleteFilm(film);
+        this.http.delete(this.originUrl + "/api/films/" + film.id).subscribe(result => {
+            if (result.ok) {
+                this.deleteFilm(film);
+            }
+        });
     }
     
-    deleteFilm(film:Film) {
+    public deleteFilm(film:Film) {
         let index: number = this.films.indexOf(film);
         if (index !== -1) {
             this.films.splice(index, 1);
         }        
     }
+
     public add(addNewFilmForm:NgForm)
     {
         if (addNewFilmForm.invalid) {
@@ -79,58 +81,40 @@ export class FetchDataComponent {
         }
 
         var newFilm = {
+            id: null,
             title: addNewFilmForm.value.newFilmTitle,
             directors:addNewFilmForm.value.newFilmDirectors,
             year: addNewFilmForm.value.newFilmYear,
             isEditing:false,
             watched: false
         };
-        this.films.push(newFilm);
+        
+        this.http.post(
+            this.originUrl + "/api/films",
+            {Title: newFilm.title, Directors: newFilm.directors, Year: newFilm.year}
+        ).subscribe(result => {
+            if (result.ok){
+                newFilm.id = result.json() as number;
+                this.films.push(newFilm);
+            }
+        });
     }
 
     public checkboxChange(film:Film)
     {
-        film.watched = true;
-        alert(film.watched);
+        this.http.patch(this.originUrl + '/api/films/' + film.id, null).subscribe(result => {
+            if (result.ok){
+                film.watched = true;
+            };
+        });
     }
-}
-class Repository
-{
-    http: Http;
-    originUrl: string;
-    /**
-     *
-     */
-    constructor(http: Http, @Inject('ORIGIN_URL') originUrl: string) {
-        
-        this.http = http;
-        this.originUrl = originUrl;
-    }
-
-    /**
-     * name
-     */
-    public update(film:Film) {
-        
-    }
-    public get()
-    {
-        return ;
-    }
-
 }
 
 interface Film{
+    id:number;
     title: string;
     directors: string;
     year: number;
     isEditing: boolean;
     watched: boolean;
-}
-
-interface WeatherForecast {
-    dateFormatted: string;
-    temperatureC: number;
-    temperatureF: number;
-    summary: string;
 }

@@ -6,8 +6,13 @@
     <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
     <AssetTargetFallback>$(AssetTargetFallback);portable-net45+win8+wp8+wpa81;</AssetTargetFallback>
     <IsPackable>false</IsPackable>
+    <RuntimeIdentifiers>linux-x64;osx.10.12-x64;win10-x64</RuntimeIdentifiers>
   </PropertyGroup>
 
+  <ItemGroup>
+      <Content Include="Dockerfile" CopyToPublishDirectory="Always" />
+  </ItemGroup>
+  
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0-preview2-final" />
   </ItemGroup>

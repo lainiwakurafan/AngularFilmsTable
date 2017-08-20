@@ -1,5 +1,5 @@
 {
-  "name": "AngularFilmsTable",
+  "name": "films-app",
   "version": "0.0.0",
   "scripts": {
     "test": "karma start ClientApp/test/karma.conf.js"

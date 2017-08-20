@@ -7,7 +7,7 @@
         {
             "taskName": "build",
             "args": [
-                "${workspaceRoot}/AngularFilmsTable.csproj"
+                "${workspaceRoot}/films-app.csproj"
             ],
             "isBuildCommand": true,
             "problemMatcher": "$msCompile"

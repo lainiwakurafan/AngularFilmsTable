@@ -8,9 +8,9 @@ using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
-using static AngularFilmsTable.Controllers.SampleDataController;
+using static FilmsApp.Controllers.FilmsController;
 
-namespace AngularFilmsTable
+namespace FilmsApp
 {
     public class Startup
     {
@@ -25,8 +25,10 @@ namespace AngularFilmsTable
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddOptions();
             services.AddDbContext<FilmsDbContext>((options) => options.UseInMemoryDatabase("Films"));
             services.AddTransient<FilmsRepository>();
+            services.AddTransient<FilmsService>();
 
             var serviceProvider = services.BuildServiceProvider();
 

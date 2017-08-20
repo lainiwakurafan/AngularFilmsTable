@@ -9,7 +9,7 @@
             <label class="col-md-4 control-label">Title</label>
             <div class="col-md-8">
                 <input type="text" class="form-control" name="newFilmTitle"
-                    required
+                    required minlength="4"
                     ngModel />
             </div>
         </div>
@@ -17,7 +17,7 @@
             <label class="col-md-4 control-label">Directors</label>
             <div class="col-md-8">
                 <input type="text" class="form-control" name="newFilmDirectors"
-                    required
+                    required minlength="4"
                     ngModel />
             </div>
         </div>
@@ -50,6 +50,7 @@
             </thead>
             <tbody>
                 <tr *ngFor="let film of films">
+                    <input name="filmId" *ngIf="film.isEditing" type="hidden" [ngModel]="film.id" />
                     <td>
                         <span *ngIf="!film.isEditing">{{ film.title }}</span>
                         <input name="filmTitle" *ngIf="film.isEditing" class="form-control"
@@ -68,7 +69,12 @@
                             required
                             [ngModel]="film.year" />
                     </td>
-                    <td><input type="checkbox" (change)="film.watched = true;" [disabled]="film.watched" /></td>
+                    <td>
+                        <input name="filmWatched" *ngIf="film.isEditing" type="hidden" [ngModel]="film.watched" />
+                        <input name="filmWatchedCheckbox{{film.id}}" type="checkbox"
+                               [checked]="film.watched" (change)="checkboxChange(film)"
+                               [disabled]="film.watched" />
+                    </td>
                     <td>
                         <button class="btn btn-primary btn-sm" (click)="save(film, rowForm)" *ngIf="film.isEditing" data-ng-disabled="rowForm.$pristine || rowForm.$invalid"><span class="glyphicon glyphicon-ok"></span></button>
                         <button class="btn btn-default btn-sm" (click)="cancel(film)" *ngIf="film.isEditing"><span class="glyphicon glyphicon-remove"></span></button>
