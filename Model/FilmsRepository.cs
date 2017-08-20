@@ -16,7 +16,6 @@ public class FilmsRepository{
 
     internal async Task<int> UpdateAsync(Film updatedFilm)
     {
-        updatedFilm.ConcurrencyStamp = Guid.NewGuid().ToString();
         context.Films.Attach(updatedFilm);
         context.Entry(updatedFilm).State = EntityState.Modified;
         context.Entry(updatedFilm).Property(f => f.Watched).IsModified = false;
@@ -25,10 +24,8 @@ public class FilmsRepository{
 
     internal async Task<int> SetWatchedAsync(Film film)
     {
-        film.ConcurrencyStamp = Guid.NewGuid().ToString();
         film.Watched = true;
         context.Films.Attach(film);
-        context.Entry(film).Property(f => f.ConcurrencyStamp).IsModified = true;
         context.Entry(film).Property(f => f.Watched).IsModified = true;
         return await context.SaveChangesAsync();
     }
@@ -47,7 +44,6 @@ public class FilmsRepository{
 
     internal async Task<int> AddAsync(Film film)
     {
-        //film.ConcurrencyStamp = Guid.NewGuid().ToString();
         var result = await context.AddAsync(film);
 
         if (result.IsKeySet && (await context.SaveChangesAsync() > 0)) {
