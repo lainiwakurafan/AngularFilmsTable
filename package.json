@@ -1,6 +1,11 @@
 {
   "name": "films-app",
-  "version": "0.0.0",
+  "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lainiwakurafan/films-app.git"
+  },
+  "description": "Angular 4 single page app with ASP.NET Core 2.0 backend for managing films to be watched in the future",
   "scripts": {
     "test": "karma start ClientApp/test/karma.conf.js"
   },
