@@ -1,11 +1,9 @@
-FROM microsoft/dotnet:2-runtime-deps
-LABEL name "films-app"
-
-WORKDIR /app
+FROM microsoft/aspnetcore-build:2
+WORKDIR /src
 ARG source=.
 COPY $source .
-
-ENV ASPNETCORE_URLS http://*:80
-EXPOSE 80
-
-ENTRYPOINT ["./films-app"]
+RUN dotnet publish -c Release -o /app
+ENV ASPNETCORE_URLS "http://*:5000"
+EXPOSE 5000
+WORKDIR /app
+ENTRYPOINT ["dotnet", "films-app.dll"]
