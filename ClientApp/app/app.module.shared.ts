@@ -17,9 +17,9 @@ import { FilmsTableComponent } from './components/filmstable/filmstable.componen
         HttpModule,
         FormsModule,
         RouterModule.forRoot([
-            { path: '', redirectTo: 'films-table', pathMatch: 'full' },
-            { path: 'films-table', component: FilmsTableComponent },
-            { path: '**', redirectTo: 'films-table' }
+            { path: '', redirectTo: 'films', pathMatch: 'full' },
+            { path: 'films', component: FilmsTableComponent },
+            { path: '**', redirectTo: 'films' }
         ])
     ]
 })
